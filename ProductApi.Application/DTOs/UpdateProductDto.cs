@@ -11,7 +11,7 @@ namespace ProductApi.Application.DTOs
     {
         [Required]
         public string Name { get; set; }
-        [Range(0.01, double.MaxValue)]
+        [Range(0.01, 1_000_000)]
         public decimal Price { get; set; }
     }
 }
