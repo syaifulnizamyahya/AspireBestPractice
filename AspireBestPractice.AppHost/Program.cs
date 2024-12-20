@@ -11,4 +11,6 @@ builder.AddProject<Projects.AspireBestPractice_Web>("webfrontend")
     .WithReference(apiService)
     .WaitFor(apiService);
 
+builder.AddProject<Projects.ProductApi_Web>("productapi-web");
+
 builder.Build().Run();
