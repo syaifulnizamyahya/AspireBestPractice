@@ -16,39 +16,52 @@ namespace ProductApi.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductDto>>> Get()
+        public async Task<IActionResult> Get()
         {
-            return Ok(await _productService.GetAllProductsAsync());
+            var result = await _productService.GetAllProductsAsync();
+            if (result.IsFailed)
+                return BadRequest(result.Errors);
+
+            return Ok(result.Value);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ProductDto>> Get(Guid id)
+        public async Task<IActionResult> Get(Guid id)
         {
-            var product = await _productService.GetProductByIdAsync(id);
-            if (product == null)
-                return NotFound();
+            var result = await _productService.GetProductByIdAsync(id);
+            if (result.IsFailed)
+                return NotFound(result.Errors);
 
-            return Ok(product);
+            return Ok(result.Value);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post(CreateProductDto dto)
+        public async Task<IActionResult> Post(CreateProductDto dto)
         {
-            await _productService.AddProductAsync(dto);
+            var result = await _productService.AddProductAsync(dto);
+            if (result.IsFailed)
+                return BadRequest(result.Errors);
+
             return NoContent();
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> Put(Guid id, UpdateProductDto dto)
+        public async Task<IActionResult> Put(Guid id, UpdateProductDto dto)
         {
-            await _productService.UpdateProductAsync(id, dto);
+            var result = await _productService.UpdateProductAsync(id, dto);
+            if (result.IsFailed)
+                return BadRequest(result.Errors);
+
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            await _productService.DeleteProductAsync(id);
+            var result = await _productService.DeleteProductAsync(id);
+            if (result.IsFailed)
+                return NotFound(result.Errors);
+
             return NoContent();
         }
     }
