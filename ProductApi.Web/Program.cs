@@ -29,6 +29,13 @@ builder.Services.AddCors(options =>
               .AllowAnyMethod()
               .AllowAnyHeader();
     });
+    options.AddPolicy("SecurePolicy", policy =>
+    {
+        policy.WithOrigins("https://mytrusteddomain.com")
+              .WithMethods("GET", "POST")
+              .WithHeaders("Authorization", "Content-Type")
+              .SetPreflightMaxAge(TimeSpan.FromMinutes(10));
+    });
 });
 
 var app = builder.Build();
