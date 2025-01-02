@@ -18,12 +18,13 @@
 - [x] Dependency Injection
 - [x] Repository
   - [x] Generic Repository
+- [x] Data Transfer Object (DTO)
+- [x] Validation (FluentValidation)
 - [x] Exception Avoidance (FluentResult)
-- [ ] Global Error Handling
-- [ ] ORM (EntityFramework Core) 
+- [x] Global Error Handling
+- [x] ORM (EntityFramework Core) 
 - [ ] Database (Postgres)
 - [ ] Mapping (Automapper)
-- [ ] Validation (FluentValidation)
 - [ ] CQRS (MediatR)
 - [ ] Cache (HybridCache, Redis)
 - [ ] Test (xUnit, Moq)
