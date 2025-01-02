@@ -14,7 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\AspireBestPractice.ApiService\AspireBestPractice.ApiService.csproj" />
     <ProjectReference Include="..\AspireBestPractice.Web\AspireBestPractice.Web.csproj" />
-    <ProjectReference Include="..\ProductApi.Web\ProductApi.Web.csproj" />
+    <ProjectReference Include="..\src\ProductApi.Web\ProductApi.Web.csproj" />
   </ItemGroup>
 
   <ItemGroup>
