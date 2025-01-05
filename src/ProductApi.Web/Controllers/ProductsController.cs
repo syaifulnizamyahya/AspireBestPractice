@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using ProductApi.Application.DTOs;
-using ProductApi.Application.Interfaces;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using ProductApi.Application.DTOs.Requests;
+using ProductApi.Application.Features.Products.Commands;
+using ProductApi.Application.Features.Products.Queries;
 
 namespace ProductApi.Web.Controllers
 {
@@ -8,17 +10,19 @@ namespace ProductApi.Web.Controllers
     [Route("api/[controller]")]
     public class ProductsController : ControllerBase
     {
-        private readonly IProductService _productService;
+        private readonly IMediator _mediator;
 
-        public ProductsController(IProductService productService)
+        public ProductsController(IMediator mediator)
         {
-            _productService = productService;
+            _mediator = mediator;
         }
 
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var result = await _productService.GetAllProductsAsync();
+            var query = new GetAllProductsQuery();
+            var result = await _mediator.Send(query);
+
             if (result.IsFailed)
                 return BadRequest(result.Errors);
 
@@ -28,7 +32,9 @@ namespace ProductApi.Web.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            var result = await _productService.GetProductByIdAsync(id);
+            var query = new GetProductByIdQuery(id);
+            var result = await _mediator.Send(query);
+
             if (result.IsFailed)
                 return NotFound(result.Errors);
 
@@ -36,19 +42,23 @@ namespace ProductApi.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(CreateProductDto dto)
+        public async Task<IActionResult> Post([FromBody] CreateProductDto dto)
         {
-            var result = await _productService.AddProductAsync(dto);
+            var command = new CreateProductCommand(dto);
+            var result = await _mediator.Send(command);
+
             if (result.IsFailed)
                 return BadRequest(result.Errors);
 
-            return NoContent();
+            return CreatedAtAction(nameof(Get), new { id = result.Value }, result.Value);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(Guid id, UpdateProductDto dto)
+        public async Task<IActionResult> Put(Guid id, [FromBody] UpdateProductDto dto)
         {
-            var result = await _productService.UpdateProductAsync(id, dto);
+            var command = new UpdateProductCommand(id, dto);
+            var result = await _mediator.Send(command);
+
             if (result.IsFailed)
                 return BadRequest(result.Errors);
 
@@ -58,7 +68,9 @@ namespace ProductApi.Web.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var result = await _productService.DeleteProductAsync(id);
+            var command = new DeleteProductCommand(id);
+            var result = await _mediator.Send(command);
+
             if (result.IsFailed)
                 return NotFound(result.Errors);
 

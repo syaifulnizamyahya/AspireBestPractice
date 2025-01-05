@@ -1,5 +1,5 @@
-﻿using ProductApi.Application.DTOs;
-using FluentValidation;
+﻿using FluentValidation;
+using ProductApi.Application.DTOs.Requests;
 
 namespace ProductApi.Application.Validators
 {

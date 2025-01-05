@@ -1,17 +1,16 @@
 ﻿using FluentValidation;
-using ProductApi.Application.DTOs.Requests;
 
-namespace ProductApi.Application.Validators
+namespace ProductApi.Application.Features.Products.Commands
 {
-    public class UpdateProductDtoValidator : AbstractValidator<UpdateProductDto>
+    public class CreateProductCommandValidator : AbstractValidator<CreateProductCommand>
     {
-        public UpdateProductDtoValidator()
+        public CreateProductCommandValidator()
         {
-            RuleFor(x => x.Name)
+            RuleFor(x => x.Dto.Name)
                 .NotEmpty().WithMessage("Name is required")
                 .MaximumLength(100).WithMessage("Name cannot exceed 100 characters");
 
-            RuleFor(x => x.Price)
+            RuleFor(x => x.Dto.Price)
                 .GreaterThan(0).WithMessage("Price must be greater than zero");
         }
     }
