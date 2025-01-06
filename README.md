@@ -23,9 +23,9 @@
 - [x] Exception Avoidance (FluentResult)
 - [x] Global Error Handling
 - [x] ORM (EntityFramework Core) 
+- [x] CQRS (MediatR)
 - [ ] Database (Postgres)
 - [ ] Mapping (Automapper)
-- [ ] CQRS (MediatR)
 - [ ] Cache (HybridCache, Redis)
 - [ ] Test (xUnit, Moq)
   - [ ] Unit Test
