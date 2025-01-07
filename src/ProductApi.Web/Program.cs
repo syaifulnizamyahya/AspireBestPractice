@@ -13,14 +13,20 @@ using ProductApi.Web.Services;
 using Scalar.AspNetCore;
 using Microsoft.AspNetCore.Diagnostics;
 using ProductApi.Application.Mapping.Responses;
+using ProductApi.Application.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
 // Add services to the container.
+builder.Services.Configure<ApplicationSettings>(builder.Configuration.GetSection("ApplicationSettings"));
+
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseInMemoryDatabase("ProductDb"));
+{
+    var applicationSettings = builder.Configuration.GetSection("ApplicationSettings").Get<ApplicationSettings>();
+    options.UseInMemoryDatabase(applicationSettings.DatabaseName);
+});
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IProductService, ProductService>();

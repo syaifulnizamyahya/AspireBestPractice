@@ -26,7 +26,7 @@
 - [x] CQRS (MediatR)
 - [x] Mapping (Automapper)
 - [x] Api Documentation (Scalar)
-- [ ] IOptions
+- [x] IOptions
 - [ ] Logging (Serilog, Seq)
 - [ ] Event Sourcing (Audit.Net)
 - [ ] Event Bus (RabbitMQ, MassTransit)
