@@ -12,6 +12,7 @@ using ProductApi.Infrastructure.Repository;
 using ProductApi.Web.Services;
 using Scalar.AspNetCore;
 using Microsoft.AspNetCore.Diagnostics;
+using ProductApi.Application.Mapping.Responses;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +24,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IProductService, ProductService>();
+
+builder.Services.AddAutoMapper(typeof(ProductDtoProfile).Assembly);
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi

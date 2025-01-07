@@ -22,5 +22,11 @@ namespace ProductApi.Domain.Entities
             Name = name;
             Price = price;
         }
+
+        public void Update(Product product)
+        {
+            Name = product.Name;
+            Price = product.Price;
+        }
     }
 }
