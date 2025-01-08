@@ -27,9 +27,10 @@
 - [x] Mapping (Automapper)
 - [x] Api Documentation (Scalar)
 - [x] IOptions
-- [ ] Test (xUnit, Moq)
+- [x] Test (xUnit, Moq)
   - [x] Unit Test
-  - [ ] Integration Test
+  - [x] Integration Test
+  - [x] Using FluentAssertions
 - [ ] Logging (Serilog, Seq)
 - [ ] Event Sourcing (Audit.Net)
 - [ ] Event Bus (RabbitMQ, MassTransit)

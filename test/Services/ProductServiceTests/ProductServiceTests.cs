@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Moq;
+using FluentAssertions;
 using ProductApi.Application.DTOs.Requests;
 using ProductApi.Application.DTOs.Responses;
 using ProductApi.Application.Interfaces;
@@ -39,9 +40,8 @@ namespace ProductApi.Tests.Services
             var result = await _productService.GetAllProductsAsync();
 
             // Assert 
-            Assert.True(result.IsSuccess);
-            Assert.NotNull(result.Value);
-            Assert.Equal(2, result.Value.Count());
+            result.IsSuccess.Should().BeTrue();
+            result.Value.Should().NotBeNull().And.HaveCount(2).And.BeEquivalentTo(productDtos);
         }
 
         [Fact]
@@ -58,11 +58,9 @@ namespace ProductApi.Tests.Services
             var result = await _productService.GetProductByIdAsync(product.Id);
 
             // Assert 
-            Assert.True(result.IsSuccess);
-            Assert.NotNull(result.Value);
-            Assert.Equal(product.Id, result.Value.Id);
-            Assert.Equal(product.Name, result.Value.Name);
-            Assert.Equal(product.Price, result.Value.Price);
+            result.IsSuccess.Should().BeTrue();
+            result.Value.Should().NotBeNull();
+            result.Value.Should().BeEquivalentTo(productDto);
         }
 
         [Fact]
@@ -79,8 +77,8 @@ namespace ProductApi.Tests.Services
             var result = await _productService.AddProductAsync(createProductDto);
 
             // Assert 
-            Assert.True(result.IsSuccess);
-            Assert.Equal(product.Id, result.Value);
+            result.IsSuccess.Should().BeTrue();
+            result.Value.Should().Be(product.Id);
         }
 
         [Fact]
@@ -99,11 +97,10 @@ namespace ProductApi.Tests.Services
             var result = await _productService.UpdateProductAsync(product.Id, updateProductDto);
 
             // Assert 
-            Assert.True(result.IsSuccess);
+            result.IsSuccess.Should().BeTrue();
+            product.Name.Should().Be(updateProductDto.Name);
+            product.Price.Should().Be(updateProductDto.Price);
             _repositoryMock.Verify(x => x.UpdateAsync(It.IsAny<Product>()), Times.Once);
-
-            Assert.Equal(updateProductDto.Name, product.Name);
-            Assert.Equal(updateProductDto.Price, product.Price);
         }
 
         [Fact]
@@ -119,7 +116,7 @@ namespace ProductApi.Tests.Services
             var result = await _productService.DeleteProductAsync(product.Id);
 
             // Assert 
-            Assert.True(result.IsSuccess);
+            result.IsSuccess.Should().BeTrue();
             _repositoryMock.Verify(x => x.DeleteAsync(product.Id), Times.Once);
         }
 
@@ -134,8 +131,8 @@ namespace ProductApi.Tests.Services
             var result = await _productService.DeleteProductAsync(productId);
 
             // Assert 
-            Assert.True(result.IsFailed);
-            Assert.Contains("Product not found", result.Errors.Select(x => x.Message));
+            result.IsFailed.Should().BeTrue();
+            result.Errors.Should().ContainSingle(e => e.Message == "Product not found");
         }
     }
 }
