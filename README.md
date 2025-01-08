@@ -5,7 +5,7 @@
 ---
 
 ## Technology And Best Practices
-- [x] Aspire
+- [x] [Aspire](https://learn.microsoft.com/en-us/dotnet/aspire/get-started/aspire-overview) 
   - [x] Monitoring
   - [x] Logging
 - [x] Clean Architecture
@@ -27,14 +27,14 @@
 - [x] Mapping (Automapper)
 - [x] Api Documentation (Scalar)
 - [x] IOptions
+- [ ] Test (xUnit, Moq)
+  - [x] Unit Test
+  - [ ] Integration Test
 - [ ] Logging (Serilog, Seq)
 - [ ] Event Sourcing (Audit.Net)
 - [ ] Event Bus (RabbitMQ, MassTransit)
 - [ ] Cache (HybridCache, Redis)
 - [ ] Database (Postgres)
-- [ ] Test (xUnit, Moq)
-  - [ ] Unit Test
-  - [ ] Integration Test
 - [ ] API Gateway (Ocelot)
 - [ ] Container (Docker, Kubernetes, Helm)
 - [ ] CI/CD (Github Actions, Azure DevOps)
