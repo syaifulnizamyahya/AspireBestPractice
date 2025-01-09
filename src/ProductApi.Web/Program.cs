@@ -9,11 +9,11 @@ using ProductApi.Application.Features.Products.Commands;
 using ProductApi.Application.Interfaces;
 using ProductApi.Infrastructure.Data;
 using ProductApi.Infrastructure.Repository;
-using ProductApi.Web.Services;
 using Scalar.AspNetCore;
 using Microsoft.AspNetCore.Diagnostics;
 using ProductApi.Application.Mapping.Responses;
 using ProductApi.Application.Settings;
+using ProductApi.Application.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

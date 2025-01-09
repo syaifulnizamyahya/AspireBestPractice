@@ -5,7 +5,7 @@ using ProductApi.Application.DTOs.Responses;
 using ProductApi.Application.Interfaces;
 using ProductApi.Domain.Entities;
 
-namespace ProductApi.Web.Services
+namespace ProductApi.Application.Services
 {
     public class ProductService : IProductService
     {

@@ -5,7 +5,7 @@ using ProductApi.Application.DTOs.Requests;
 using ProductApi.Application.DTOs.Responses;
 using ProductApi.Application.Interfaces;
 using ProductApi.Domain.Entities;
-using ProductApi.Web.Services;
+using ProductApi.Application.Services;
 
 namespace ProductApi.Tests.Services
 {
