@@ -2,7 +2,7 @@
 using ProductApi.Application.Interfaces;
 using ProductApi.Infrastructure.Data;
 
-namespace ProductApi.Infrastructure.Repository
+namespace ProductApi.Infrastructure.Repositories
 {
     public class Repository<T> : IRepository<T> where T : class
     {

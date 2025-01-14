@@ -4,16 +4,16 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using MediatR.Extensions.FluentValidation.AspNetCore;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using ProductApi.Application.Features.Products.Commands;
 using ProductApi.Application.Interfaces;
 using ProductApi.Infrastructure.Data;
-using ProductApi.Infrastructure.Repository;
+using ProductApi.Infrastructure.Repositories;
 using Scalar.AspNetCore;
 using Microsoft.AspNetCore.Diagnostics;
 using ProductApi.Application.Mapping.Responses;
-using ProductApi.Application.Settings;
 using ProductApi.Application.Services;
+using ProductApi.Web.Settings;
+using ProductApi.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,12 +21,9 @@ builder.AddServiceDefaults();
 
 // Add services to the container.
 builder.Services.Configure<ApplicationSettings>(builder.Configuration.GetSection("ApplicationSettings"));
+var applicationSettings = builder.Configuration.GetSection("ApplicationSettings").Get<ApplicationSettings>();
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-{
-    var applicationSettings = builder.Configuration.GetSection("ApplicationSettings").Get<ApplicationSettings>();
-    options.UseInMemoryDatabase(applicationSettings.DatabaseName);
-});
+builder.AddNpgsqlDbContext<AppDbContext>(applicationSettings.DatabaseName);
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IProductService, ProductService>();
@@ -95,6 +92,8 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.CreateDbIfNotExistsAsync();
 
 app.Run();
 
