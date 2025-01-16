@@ -45,7 +45,11 @@ This combination of design principles, frameworks, and tools will ensure the API
  - As of now, this project does not cover securing your Web Api. For securing enterprise-class Web API, check out [OWASP](https://cheatsheetseries.owasp.org/cheatsheets/DotNet_Security_Cheat_Sheet.html).
  --- 
 
-## Screenshots
+ <details>
+
+ <summary>Click for screenshots</summary>
+
+<!--## Screenshots-->
 [Aspire](https://learn.microsoft.com/en-us/dotnet/aspire/get-started/aspire-overview) main orchestration page
 ![Aspire1](images/Aspire1.png)
 [Scalar](https://scalar.com/) Web Api Documentation page
@@ -77,6 +81,8 @@ pgWeb
 ![Pg Web](images/pgWeb.png)
  --- 
 
+</details>
+
 ## Prerequisites
 You need the following installed locally:
 - .NET 9.0
@@ -86,28 +92,28 @@ You need the following installed locally:
 
 ## Basic project features
 - Aspire orchestration features
-    - Listing of Aspire resources
+	- Listing of Aspire resources
 ![Aspire Resource Listing](images/AspireResourceListing.png)
-    - Console logs of each resources
+	- Console logs of each resources
 ![Aspire Console Logs](images/AspireConsoleLogs.png)
-    - Structured view of logs for each projects
+	- Structured view of logs for each projects
 ![Aspire Structured Logs](images/AspireStructuredLogs.png)
-    - Traces
+	- Traces
 ![Aspire Traces](images/AspireTraces.png)
-    - Metrics
+	- Metrics
 ![Aspire Metrics](images/AspireMetrics.png)
 - Scalar Web API documentation features
-    - Get all products
+	- Get all products
 ![Getall](images/getall.png)
-    - Get a product by Id
+	- Get a product by Id
 ![Getbyid](images/Getbyid.png)
-    - Create a product
+	- Create a product
 ![Create Product](images/CreateProduct.png)
-    - Update a product
+	- Update a product
 ![Update](images/Update.png)
-    - Delete a product
+	- Delete a product
 ![Delete](images/Delete.png)
-    - Models information
+	- Models information
 ![Models Info](images/ModelsInfo.png)
 - Product model class
 [Product.cs](src/ProductApi.Domain/Entities/Product.cs)
@@ -122,7 +128,7 @@ You need the following installed locally:
 
 ## Technology And Best Practices
 - [X] Leverage .NET Aspire for orchestrating distributed applications
-    - [X] Monitoring
+	- [X] Monitoring
 	- [X] Logging
 	- [X] Orchestration
 - [X] Leverage Scalar for API documentation
@@ -132,18 +138,18 @@ You need the following installed locally:
 	- [X] Domain (ProductApi.Domain)
 	- [X] Infrastructure (ProductApi.Infrastructure)
 - [X] Domain Driven Design
-    - [X] Encapsulation of domain logic within the Product entity
+	- [X] Encapsulation of domain logic within the Product entity
 ```
-    public class Product : Entity
-    {
-        public string Name { get; private set; }
-        public decimal Price { get; private set; }
+	public class Product : Entity
+	{
+		public string Name { get; private set; }
+		public decimal Price { get; private set; }
 
-        public Product(string name, decimal price)
-        {
-            Name = name;
-            Price = price;
-        }
+		public Product(string name, decimal price)
+		{
+			Name = name;
+			Price = price;
+		}
 ```
 	- [X] Separation of application-specific logic into IProductService and ProductService
 ```
