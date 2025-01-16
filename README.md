@@ -85,36 +85,74 @@ You need the following installed locally:
  --- 
 
 ## Basic project features
-### Aspire orchestration features
-#### Listing of Aspire resources
+- Aspire orchestration features
+    - Listing of Aspire resources
 ![Aspire Resource Listing](images/AspireResourceListing.png)
-#### Console logs of each resources
+    - Console logs of each resources
 ![Aspire Console Logs](images/AspireConsoleLogs.png)
-#### Structured view of logs for each projects
+    - Structured view of logs for each projects
 ![Aspire Structured Logs](images/AspireStructuredLogs.png)
-#### Traces
+    - Traces
 ![Aspire Traces](images/AspireTraces.png)
-#### Metrics
+    - Metrics
 ![Aspire Metrics](images/AspireMetrics.png)
-## Scalar Web API documentation features
-### Get all products
+- Scalar Web API documentation features
+    - Get all products
 ![Getall](images/getall.png)
-### Get a product by Id
+    - Get a product by Id
 ![Getbyid](images/Getbyid.png)
-### Create a product
+    - Create a product
 ![Create Product](images/CreateProduct.png)
-### Update a product
+    - Update a product
 ![Update](images/Update.png)
-### Delete a product
+    - Delete a product
 ![Delete](images/Delete.png)
-### Models information
+    - Models information
 ![Models Info](images/ModelsInfo.png)
-## Product model class
-[Product](src/ProductApi.Domain/Entities/Product.cs)
-## Database context
-[App Db Context](src/ProductApi.Infrastructure/Data/AppDbContext.cs)
-## Controller
-[Product Controller](src/ProductApi.Api/Controllers/ProductController.cs)
-## Service
-[Product Service](src/ProductApi.Application/Services/ProductService.cs)
+- Product model class
+[Product.cs](src/ProductApi.Domain/Entities/Product.cs)
+- Database context
+[AppDbContext.cs](src/ProductApi.Infrastructure/Data/AppDbContext.cs)
+- Controller
+[ProductController.cs](src/ProductApi.Api/Controllers/ProductController.cs)
+- Service
+[ProductService.cs](src/ProductApi.Application/Services/ProductService.cs)
+
  --- 
+
+## Technology And Best Practices
+- [X] Leverage .NET Aspire for orchestrating distributed applications
+    - [X] Monitoring
+	- [X] Logging
+	- [X] Orchestration
+- [X] Leverage Scalar for API documentation
+- [X] Clean Architecture
+	- [X] Presentation (ProductApi.Web)
+	- [X] Application (ProductApi.Application)
+	- [X] Domain (ProductApi.Domain)
+	- [X] Infrastructure (ProductApi.Infrastructure)
+- [X] Domain Driven Design
+    - [X] Encapsulation of domain logic within the Product entity
+```
+    public class Product : Entity
+    {
+        public string Name { get; private set; }
+        public decimal Price { get; private set; }
+
+        public Product(string name, decimal price)
+        {
+            Name = name;
+            Price = price;
+        }
+```
+	- [X] Separation of application-specific logic into IProductService and ProductService
+```
+	public interface IProductService
+	{
+		Task<IEnumerable<Product>> GetProductsAsync();
+		Task<Product> GetProductByIdAsync(int id);
+```
+	- [X] Use of CreateProductDto [CreateProductDto.cs](src/ProductApi.Application/DTOs/Requests/CreateProductDto.cs), UpdateProductDto [UpdateProductDto.cs](src/ProductApi.Application/DTOs/Requests/UpdateProductDto.cs), and ProductDto [ProductDto.cs](src/ProductApi.Application/DTOs/Responses/ProductDto.cs) to manage data between layers.
+	- [X] Repository and DbContext remain untouched, aligning with persistence ignorance.
+
+
