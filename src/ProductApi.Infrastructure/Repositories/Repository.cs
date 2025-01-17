@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ProductApi.Application.Interfaces;
+using ProductApi.Domain.Interfaces;
 using ProductApi.Infrastructure.Data;
 
 namespace ProductApi.Infrastructure.Repositories
 {
     public class Repository<T> : IRepository<T> where T : class
     {
-        private readonly AppDbContext _context;
+        protected readonly AppDbContext _context;
 
         public Repository(AppDbContext context)
         {
@@ -26,13 +26,11 @@ namespace ProductApi.Infrastructure.Repositories
         public async Task AddAsync(T entity)
         {
             await _context.Set<T>().AddAsync(entity);
-            await _context.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(T entity)
         {
             _context.Set<T>().Update(entity);
-            await _context.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(Guid id)
@@ -41,7 +39,6 @@ namespace ProductApi.Infrastructure.Repositories
             if (entity != null)
             {
                 _context.Set<T>().Remove(entity);
-                await _context.SaveChangesAsync();
             }
         }
     }

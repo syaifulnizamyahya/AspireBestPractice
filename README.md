@@ -142,13 +142,16 @@ Do note that the port number might vary.
 - [X] Leverage .NET Aspire for orchestrating distributed applications
 	- [X] Monitoring
 	- [X] Logging
-	- [X] Orchestration
+	- [X] 
+
 - [X] Leverage Scalar for API documentation
-- [X] Clean Architecture
+
+- [X] - [X] Clean Architecture
 	- [X] Presentation (ProductApi.Web)
 	- [X] Application (ProductApi.Application)
 	- [X] Domain (ProductApi.Domain)
 	- [X] Infrastructure (ProductApi.Infrastructure)
+
 - [X] Domain Driven Design
 	- [X] Domain logic in Product entity
 
@@ -174,7 +177,10 @@ Do note that the port number might vary.
 		Task<Product> GetProductByIdAsync(int id);
 	```
 
-- [X] Gerenric Repository Pattern
+- [X] Repository Pattern
+	- [X] Generic Repository
+	- [X] Unit of Work
+
 - [X] Data Transfer Object
 	- [X] Uses record
 	```
@@ -189,4 +195,12 @@ Do note that the port number might vary.
 		  - UpdateProductDto.cs
 		- Responses
 		  - ProductDto.cs
+	```
+
+- [X] Unit tests
+	- [X] Uses xUnit 
+	- [X] Uses Moq
+	- [X] Uses FluentAssertions
+	- [X] Arrange, Act, Assert pattern
+
 	```

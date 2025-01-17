@@ -14,6 +14,8 @@ using ProductApi.Application.Mapping.Responses;
 using ProductApi.Application.Services;
 using ProductApi.Web.Settings;
 using ProductApi.Infrastructure.Extensions;
+using ProductApi.Domain.Interfaces;
+using ProductApi.Infrastructure.UnitOfWork;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +29,7 @@ builder.AddNpgsqlDbContext<AppDbContext>(applicationSettings.DatabaseName);
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddAutoMapper(typeof(ProductDtoProfile).Assembly);
 

@@ -9,5 +9,4 @@
             Id = Guid.NewGuid();
         }
     }
-
 }

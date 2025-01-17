@@ -1,4 +1,4 @@
-﻿namespace ProductApi.Application.Interfaces
+﻿namespace ProductApi.Domain.Interfaces
 {
     public interface IRepository<T> where T : class
     {

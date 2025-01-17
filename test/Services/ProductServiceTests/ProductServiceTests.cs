@@ -3,23 +3,23 @@ using Moq;
 using FluentAssertions;
 using ProductApi.Application.DTOs.Requests;
 using ProductApi.Application.DTOs.Responses;
-using ProductApi.Application.Interfaces;
 using ProductApi.Domain.Entities;
 using ProductApi.Application.Services;
+using ProductApi.Domain.Interfaces;
 
 namespace ProductApi.Tests.Services
 {
     public class ProductServiceTests
     {
-        private readonly Mock<IRepository<Product>> _repositoryMock;
+        private readonly Mock<IUnitOfWork> _unitOfWorkMock;
         private readonly Mock<IMapper> _mapperMock;
         private readonly ProductService _productService;
 
         public ProductServiceTests()
         {
-            _repositoryMock = new Mock<IRepository<Product>>();
+            _unitOfWorkMock = new Mock<IUnitOfWork>();
             _mapperMock = new Mock<IMapper>();
-            _productService = new ProductService(_repositoryMock.Object, _mapperMock.Object);
+            _productService = new ProductService(_unitOfWorkMock.Object, _mapperMock.Object);
         }
 
         [Fact]
@@ -33,7 +33,7 @@ namespace ProductApi.Tests.Services
             };
             var productDtos = products.Select(p => new ProductDto(p.Id, p.Name, p.Price)).ToList();
 
-            _repositoryMock.Setup(x => x.GetAllAsync()).ReturnsAsync(products);
+            _unitOfWorkMock.Setup(x => x.Products.GetAllAsync()).ReturnsAsync(products);
             _mapperMock.Setup(x => x.Map<IEnumerable<ProductDto>>(products)).Returns(productDtos);
 
             // Act 
@@ -51,7 +51,7 @@ namespace ProductApi.Tests.Services
             var product = new Product("Product1", 100);
             var productDto = new ProductDto(product.Id, product.Name, product.Price);
 
-            _repositoryMock.Setup(x => x.GetByIdAsync(product.Id)).ReturnsAsync(product);
+            _unitOfWorkMock.Setup(x => x.Products.GetByIdAsync(product.Id)).ReturnsAsync(product);
             _mapperMock.Setup(x => x.Map<ProductDto>(product)).Returns(productDto);
 
             // Act 
@@ -71,7 +71,8 @@ namespace ProductApi.Tests.Services
             var product = new Product(createProductDto.Name, createProductDto.Price);
 
             _mapperMock.Setup(x => x.Map<Product>(createProductDto)).Returns(product);
-            _repositoryMock.Setup(x => x.AddAsync(product)).Returns(Task.CompletedTask);
+            _unitOfWorkMock.Setup(x => x.Products.AddAsync(product)).Returns(Task.CompletedTask);
+            _unitOfWorkMock.Setup(x => x.SaveChangesAsync()).ReturnsAsync(1);
 
             // Act 
             var result = await _productService.AddProductAsync(createProductDto);
@@ -84,23 +85,29 @@ namespace ProductApi.Tests.Services
         [Fact]
         public async Task UpdateProductAsync_ShouldSucceed_WhenProductExists()
         {
-            // Arrange 
+            // Arrange
             var product = new Product("Product1", 100);
+            var productId = product.Id;
             var updateProductDto = new UpdateProductDto("Product2", 200);
-            var updatedProduct = new Product(updateProductDto.Name, updateProductDto.Price);
 
-            _repositoryMock.Setup(x => x.GetByIdAsync(product.Id)).ReturnsAsync(product);
-            _mapperMock.Setup(x => x.Map<Product>(updateProductDto)).Returns(updatedProduct);
-            _repositoryMock.Setup(x => x.UpdateAsync(product)).Returns(Task.CompletedTask);
+            _unitOfWorkMock.Setup(x => x.Products.GetByIdAsync(productId)).ReturnsAsync(product);
+            _mapperMock.Setup(x => x.Map(updateProductDto, product))
+                       .Callback<UpdateProductDto, Product>((dto, prod) =>
+                       {
+                           prod.Update(dto.Name, dto.Price);
+                       });
+            _unitOfWorkMock.Setup(x => x.SaveChangesAsync()).ReturnsAsync(1);
 
-            // Act 
-            var result = await _productService.UpdateProductAsync(product.Id, updateProductDto);
+            // Act
+            var result = await _productService.UpdateProductAsync(productId, updateProductDto);
 
-            // Assert 
+            // Assert
             result.IsSuccess.Should().BeTrue();
-            product.Name.Should().Be(updateProductDto.Name);
+            product.Name.Should().Be(updateProductDto.Name); 
             product.Price.Should().Be(updateProductDto.Price);
-            _repositoryMock.Verify(x => x.UpdateAsync(It.IsAny<Product>()), Times.Once);
+            _unitOfWorkMock.Verify(x => x.Products.GetByIdAsync(productId), Times.Once);
+            _mapperMock.Verify(x => x.Map(updateProductDto, product), Times.Once);
+            _unitOfWorkMock.Verify(x => x.SaveChangesAsync(), Times.Once);
         }
 
         [Fact]
@@ -109,15 +116,16 @@ namespace ProductApi.Tests.Services
             // Arrange 
             var product = new Product("Product1", 100);
 
-            _repositoryMock.Setup(x => x.GetByIdAsync(product.Id)).ReturnsAsync(product);
-            _repositoryMock.Setup(x => x.DeleteAsync(product.Id)).Returns(Task.CompletedTask);
+            _unitOfWorkMock.Setup(x => x.Products.GetByIdAsync(product.Id)).ReturnsAsync(product);
+            _unitOfWorkMock.Setup(x => x.Products.DeleteAsync(product.Id)).Returns(Task.CompletedTask);
+            _unitOfWorkMock.Setup(x => x.SaveChangesAsync()).ReturnsAsync(1);
 
             // Act 
             var result = await _productService.DeleteProductAsync(product.Id);
 
             // Assert 
             result.IsSuccess.Should().BeTrue();
-            _repositoryMock.Verify(x => x.DeleteAsync(product.Id), Times.Once);
+            _unitOfWorkMock.Verify(x => x.Products.DeleteAsync(product.Id), Times.Once);
         }
 
         [Fact]
@@ -125,7 +133,8 @@ namespace ProductApi.Tests.Services
         {
             // Arrange 
             var productId = Guid.NewGuid();
-            _repositoryMock.Setup(x => x.GetByIdAsync(productId)).ReturnsAsync((Product)null);
+
+            _unitOfWorkMock.Setup(x => x.Products.GetByIdAsync(productId)).ReturnsAsync((Product)null);
 
             // Act 
             var result = await _productService.DeleteProductAsync(productId);
