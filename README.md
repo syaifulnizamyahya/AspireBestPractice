@@ -1,49 +1,5 @@
 # Building enterprise class web API using ASP.NET Core with .NET 9.0
-
-## Objective 
-The primary objective of this project is to develop an enterprise-class Web API using ASP.NET Core with .NET 9.0, adhering to industry-leading practices and leveraging cutting-edge technologies. The project will be structured and implemented following a robust foundation built on:  
-
-- **Clean Architecture** and **Domain-Driven Design (DDD)** for maintainable and scalable solutions.  
-- **CQRS (Command Query Responsibility Segregation)** for clear separation of concerns.  
-- **Repository Pattern** and **Unit of Work** for efficient data access and transactional consistency.  
-- **Mediator Pattern** for streamlined communication between components.  
-- **Fluent Validation** for clean and reusable validation logic.  
-- Comprehensive **exception handling** to ensure resilience and reliability.  
-- Advanced **logging** for diagnostics and monitoring.  
-- **API Versioning** for backward compatibility and smooth evolution.  
-- **Response Caching** to enhance performance.  
-- **Health Checks** to monitor application status.  
-- **Entity Framework Core** for robust ORM capabilities with **SQL Server** as the database.  
-- **AutoMapper** for object-to-object mapping.  
-- **FluentAssertions**, **Moq**, and **xUnit** for effective unit testing and ensuring code quality.  
-- **Scalar/OpenAPI** for API documentation and client consumption.  
-- **Docker** for containerization and portability.  
-- **GitHub Actions** and **Azure DevOps** for CI/CD pipelines and deployment automation.  
-
-This combination of design principles, frameworks, and tools will ensure the API is robust, scalable, testable, and production-ready.  
-
---- 
-## Overview
- - The project will be a simple CRUD operation for a product entity.
- - The project will have the following operations:
-   - Get all products
-   - Get a product by Id
-   - Create a product
-   - Update a product
-   - Delete a product
- - The product entity should has the following properties:
-   ```csharp
-   public class Product
-   {
-	   public int Id { get; set; }
-	   public string Name { get; set; }
-	   public decimal Price { get; set; }
-   }
-   ```
- - The project should looks something like this
-![Target Overview](images/TargetOverview.png)
- - As of now, this project does not cover securing your Web Api. For securing enterprise-class Web API, check out [OWASP](https://cheatsheetseries.owasp.org/cheatsheets/DotNet_Security_Cheat_Sheet.html).
- --- 
+---
 
  <details>
 
@@ -83,11 +39,67 @@ pgWeb
 
 </details>
 
-## Prerequisites
+## Objective 
+
+The primary objective of this project is to develop an enterprise-class Web API using ASP.NET Core with .NET 9.0, adhering to industry-leading practices and leveraging cutting-edge technologies. The project will be structured and implemented following a robust foundation built on:  
+
+- **Clean Architecture** and **Domain-Driven Design (DDD)** for maintainable and scalable solutions.  
+- **CQRS (Command Query Responsibility Segregation)** for clear separation of concerns.  
+- **Repository Pattern** and **Unit of Work** for efficient data access and transactional consistency.  
+- **Mediator Pattern** for streamlined communication between components.  
+- **Fluent Validation** for clean and reusable validation logic.  
+- Comprehensive **exception handling** to ensure resilience and reliability.  
+- Advanced **logging** for diagnostics and monitoring.  
+- **API Versioning** for backward compatibility and smooth evolution.  
+- **Response Caching** to enhance performance.  
+- **Health Checks** to monitor application status.  
+- **Entity Framework Core** for robust ORM capabilities with **SQL Server** as the database.  
+- **AutoMapper** for object-to-object mapping.  
+- **FluentAssertions**, **Moq**, and **xUnit** for effective unit testing and ensuring code quality.  
+- **Scalar/OpenAPI** for API documentation and client consumption.  
+- **Docker** for containerization and portability.  
+- **GitHub Actions** and **Azure DevOps** for CI/CD pipelines and deployment automation.  
+
+This combination of design principles, frameworks, and tools will ensure the API is robust, scalable, testable, and production-ready.  
+
+--- 
+
+## Overview
+ - The project will be a simple CRUD operation for a product entity.
+ - The project will have the following operations:
+   - Get all products
+   - Get a product by Id
+   - Create a product
+   - Update a product
+   - Delete a product
+ - The product entity should has the following properties:
+   ```csharp
+   public class Product
+   {
+	   public int Id { get; set; }
+	   public string Name { get; set; }
+	   public decimal Price { get; set; }
+   }
+   ```
+ - The project should looks something like this
+![Target Overview](images/TargetOverview.png)
+ - As of now, this project does not cover securing your Web Api. For securing enterprise-class Web API, check out [OWASP](https://cheatsheetseries.owasp.org/cheatsheets/DotNet_Security_Cheat_Sheet.html).
+
+ --- 
+
+ ## Running the project
+
 You need the following installed locally:
 - .NET 9.0
 - Docker Desktop 
 - Visual Studio 2022
+
+Open the solution in Visual Studio 2022 and run the project. The project will be accessible here [https://localhost:17244/](https://localhost:17244/).
+
+Scalar Web API documentation is accessible here [https://localhost:7203/scalar/v1](https://localhost:7203/scalar/v1).
+
+Do note that the port number might vary.
+
  --- 
 
 ## Basic project features
@@ -138,8 +150,9 @@ You need the following installed locally:
 	- [X] Domain (ProductApi.Domain)
 	- [X] Infrastructure (ProductApi.Infrastructure)
 - [X] Domain Driven Design
-	- [X] Encapsulation of domain logic within the Product entity
-```
+	- [X] Domain logic in Product entity
+
+	```
 	public class Product : Entity
 	{
 		public string Name { get; private set; }
@@ -150,15 +163,30 @@ You need the following installed locally:
 			Name = name;
 			Price = price;
 		}
-```
-	- [X] Separation of application-specific logic into IProductService and ProductService
-```
+	```
+
+	- [X] Application logic in ProductService
+
+	```
 	public interface IProductService
 	{
 		Task<IEnumerable<Product>> GetProductsAsync();
 		Task<Product> GetProductByIdAsync(int id);
-```
-	- [X] Use of CreateProductDto [CreateProductDto.cs](src/ProductApi.Application/DTOs/Requests/CreateProductDto.cs), UpdateProductDto [UpdateProductDto.cs](src/ProductApi.Application/DTOs/Requests/UpdateProductDto.cs), and ProductDto [ProductDto.cs](src/ProductApi.Application/DTOs/Responses/ProductDto.cs) to manage data between layers.
-	- [X] Repository and DbContext remain untouched, aligning with persistence ignorance.
+	```
 
-
+- [X] Gerenric Repository Pattern
+- [X] Data Transfer Object
+	- [X] Uses record
+	```
+	public record CreateProductDto(string Name, decimal Price);
+	```
+	- [X] Separated Request and Response
+	```
+	- ProductApi.Application
+	  - DTOs
+		- Requests
+		  - CreateProductDto.cs
+		  - UpdateProductDto.cs
+		- Responses
+		  - ProductDto.cs
+	```
