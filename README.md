@@ -142,11 +142,10 @@ Do note that the port number might vary.
 - [X] Leverage .NET Aspire for orchestrating distributed applications
 	- [X] Monitoring
 	- [X] Logging
-	- [X] 
 
 - [X] Leverage Scalar for API documentation
 
-- [X] - [X] Clean Architecture
+- [X] Clean Architecture
 	- [X] Presentation (ProductApi.Web)
 	- [X] Application (ProductApi.Application)
 	- [X] Domain (ProductApi.Domain)
@@ -179,7 +178,10 @@ Do note that the port number might vary.
 
 - [X] Repository Pattern
 	- [X] Generic Repository
-	- [X] Unit of Work
+	```
+	public class ProductRepository : Repository<Product>, IProductRepository
+	```
+	- [X] [Unit Of Work](src/ProductApi.Infrastructure/UnitOfWork/UnitOfWork.cs)
 
 - [X] Data Transfer Object
 	- [X] Uses record
@@ -202,5 +204,5 @@ Do note that the port number might vary.
 	- [X] Uses Moq
 	- [X] Uses FluentAssertions
 	- [X] Arrange, Act, Assert pattern
+	- [X] [Product Service Tests](test/Services/ProductServiceTests/ProductServiceTests.cs)
 
-	```
