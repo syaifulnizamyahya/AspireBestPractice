@@ -154,7 +154,7 @@ Do note that the port number might vary.
 - [X] Domain Driven Design
 	- [X] Domain logic in Product entity
 
-	```
+	```csharp
 	public class Product : Entity
 	{
 		public string Name { get; private set; }
@@ -165,11 +165,17 @@ Do note that the port number might vary.
 			Name = name;
 			Price = price;
 		}
+
+		public void Update(string name, decimal price)
+		{
+			Name = name;
+			Price = price;
+		}
 	```
 
 	- [X] Application logic in ProductService
 
-	```
+	```csharp
 	public interface IProductService
 	{
 		Task<IEnumerable<Product>> GetProductsAsync();
@@ -178,14 +184,14 @@ Do note that the port number might vary.
 
 - [X] Repository Pattern
 	- [X] Generic Repository
-	```
+	```csharp
 	public class ProductRepository : Repository<Product>, IProductRepository
 	```
 	- [X] [Unit Of Work](src/ProductApi.Infrastructure/UnitOfWork/UnitOfWork.cs)
 
 - [X] Data Transfer Object
 	- [X] Uses record
-	```
+	```csharp
 	public record CreateProductDto(string Name, decimal Price);
 	```
 	- [X] Separated Request and Response
@@ -206,3 +212,43 @@ Do note that the port number might vary.
 	- [X] Arrange, Act, Assert pattern
 	- [X] [Product Service Tests](test/Services/ProductServiceTests/ProductServiceTests.cs)
 
+- [X] CQRS (Command Query Responsibility Segregation)
+	- [X] Uses MediatR 
+	- [X] [CreateProductCommand](src/ProductApi.Application/Features/Products/Commands/CreateProduct/CreateProductCommand.cs)
+	- [X] [CreateProductCommandHandler](src/ProductApi.Application/Features/Products/Commands/CreateProduct/CreateProductCommandHandler.cs)
+
+- [X] Mapping
+	- [X] Uses AutoMapper
+	- [X] [ProductProfile](src/ProductApi.Application/Mapping/ProductProfile.cs)
+
+- [X] Fluent Validation
+	- [X] DTO validation
+	- [X] [Create Product Dto Validator](src/ProductApi.Application/Validators/CreateProductDtoValidator.cs)
+	- [X] Command validation
+	- [X] [Create Product Command Validator](src/ProductApi.Application/Features/Products/Commands/CreateProduct/CreateProductCommandValidator.cs)
+
+- [X] Exception Handling
+	- [X] Custom exception middleware
+	- [X] [Exception Middleware](src/ProductApi.Api/Middlewares/ExceptionMiddleware.cs)
+
+- [ ] API Versioning
+
+- [ ] Response Caching  
+	- [ ] Uses Redis
+	- [ ] Hybrid caching
+
+- [X] Entity Framework Core  
+	- [X] Uses PostgreSQL
+	- [X] Docker instance
+	- [X] Integrated with pgAmin
+	- [X] Integrated wiht pgWeb
+
+- [X] API Documentation
+	- [X] Uses Scalar/OpenAPI  
+
+- [X] Containerization 
+	- [X] Uses Docker  
+
+- [ ] CI/CD pipelines and deployment automation
+
+- [ ] Audit  
