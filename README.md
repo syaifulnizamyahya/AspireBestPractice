@@ -251,4 +251,5 @@ Do note that the port number might vary.
 
 - [ ] CI/CD pipelines and deployment automation
 
-- [ ] Audit  
+- [ ] Audit executing operations
+	- [ ] Uses Audit.MET
