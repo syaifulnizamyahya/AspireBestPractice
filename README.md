@@ -214,22 +214,22 @@ Do note that the port number might vary.
 
 - [X] CQRS (Command Query Responsibility Segregation)
 	- [X] Uses MediatR 
-	- [X] [CreateProductCommand](src/ProductApi.Application/Features/Products/Commands/CreateProduct/CreateProductCommand.cs)
-	- [X] [CreateProductCommandHandler](src/ProductApi.Application/Features/Products/Commands/CreateProduct/CreateProductCommandHandler.cs)
+		- [X] [CreateProductCommand](src/ProductApi.Application/Features/Products/Commands/CreateProduct/CreateProductCommand.cs)
+		- [X] [CreateProductCommandHandler](src/ProductApi.Application/Features/Products/Commands/CreateProduct/CreateProductCommandHandler.cs)
 
 - [X] Mapping
 	- [X] Uses AutoMapper
-	- [X] [ProductProfile](src/ProductApi.Application/Mapping/ProductProfile.cs)
+		- [X] [ProductProfile](src/ProductApi.Application/Mapping/ProductProfile.cs)
 
 - [X] Fluent Validation
 	- [X] DTO validation
-	- [X] [Create Product Dto Validator](src/ProductApi.Application/Validators/CreateProductDtoValidator.cs)
+		- [X] [Create Product Dto Validator](src/ProductApi.Application/Validators/CreateProductDtoValidator.cs)
 	- [X] Command validation
-	- [X] [Create Product Command Validator](src/ProductApi.Application/Features/Products/Commands/CreateProduct/CreateProductCommandValidator.cs)
+		- [X] [Create Product Command Validator](src/ProductApi.Application/Features/Products/Commands/CreateProduct/CreateProductCommandValidator.cs)
 
 - [X] Exception Handling
 	- [X] Custom exception middleware
-	- [X] [Exception Middleware](src/ProductApi.Api/Middlewares/ExceptionMiddleware.cs)
+		- [X] [Exception Middleware](src/ProductApi.Api/Middlewares/ExceptionMiddleware.cs)
 
 - [ ] API Versioning
 
