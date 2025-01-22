@@ -1,13 +1,15 @@
-﻿using MediatR;
+﻿using Asp.Versioning;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ProductApi.Application.DTOs.Requests;
 using ProductApi.Application.Features.Products.Commands;
 using ProductApi.Application.Features.Products.Queries;
 
-namespace ProductApi.Web.Controllers
+namespace ProductApi.Web.Controllers.V1
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class ProductsController : ControllerBase
     {
         private readonly IMediator _mediator;

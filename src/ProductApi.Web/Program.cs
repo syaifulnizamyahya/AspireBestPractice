@@ -16,6 +16,7 @@ using ProductApi.Web.Settings;
 using ProductApi.Infrastructure.Extensions;
 using ProductApi.Domain.Interfaces;
 using ProductApi.Infrastructure.UnitOfWork;
+using Asp.Versioning;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -60,6 +61,19 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Cr
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddFluentValidation(new[] { typeof(CreateProductCommandValidator).Assembly });
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(MediatR.Extensions.FluentValidation.AspNetCore.ValidationBehavior<,>));
+
+builder.Services
+    .AddApiVersioning(options =>
+    {
+        options.ReportApiVersions = true;
+        options.AssumeDefaultVersionWhenUnspecified = true;
+        options.DefaultApiVersion = new ApiVersion(1, 0);
+    })
+    .AddApiExplorer(options =>
+    {
+        options.GroupNameFormat = "'v'VVV";
+        options.SubstituteApiVersionInUrl = true;
+    });
 
 var app = builder.Build();
 

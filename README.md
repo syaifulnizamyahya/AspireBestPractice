@@ -195,7 +195,8 @@ Do note that the port number might vary.
 	```csharp
 	public class ProductRepository : Repository<Product>, IProductRepository
 	```
-	- [X] [Unit Of Work](src/ProductApi.Infrastructure/UnitOfWork/UnitOfWork.cs)
+
+- [X] [Unit Of Work](src/ProductApi.Infrastructure/UnitOfWork/UnitOfWork.cs)
 
 - [X] Data Transfer Object
 	- [X] Uses record
@@ -220,6 +221,8 @@ Do note that the port number might vary.
 	- [X] Arrange, Act, Assert pattern
 	- [X] [Product Service Tests](test/Services/ProductServiceTests/ProductServiceTests.cs)
 
+- [ ] Integration tests
+
 - [X] CQRS (Command Query Responsibility Segregation)
 	- [X] Uses MediatR 
 		- [X] [CreateProductCommand](src/ProductApi.Application/Features/Products/Commands/CreateProduct/CreateProductCommand.cs)
@@ -235,11 +238,35 @@ Do note that the port number might vary.
 	- [X] Command validation
 		- [X] [Create Product Command Validator](src/ProductApi.Application/Features/Products/Commands/CreateProduct/CreateProductCommandValidator.cs)
 
-- [X] Exception Handling
-	- [X] Custom exception middleware
-		- [X] [Exception Middleware](src/ProductApi.Api/Middlewares/ExceptionMiddleware.cs)
+- [X] Global Exception Handling
+	- [X] [Exception Middleware](src/ProductApi.Api/Middlewares/ExceptionMiddleware.cs)
 
-- [ ] API Versioning
+- [X] API Versioning
+	- [X] Controller API versioning
+	```csharp
+	namespace ProductApi.Web.Controllers.V1
+	{
+		[ApiController]
+		[ApiVersion("1.0")]
+		[Route("api/v{version:apiVersion}/[controller]")]
+		public class ProductsController : ControllerBase
+
+	```
+	- [X] Scalar API documentation
+	```csharp
+	builder.Services
+		.AddApiVersioning(options =>
+		{
+			options.ReportApiVersions = true;
+			options.AssumeDefaultVersionWhenUnspecified = true;
+			options.DefaultApiVersion = new ApiVersion(1, 0);
+		})
+		.AddApiExplorer(options =>
+		{
+			options.GroupNameFormat = "'v'VVV";
+			options.SubstituteApiVersionInUrl = true;
+		});	
+	```
 
 - [ ] Response Caching  
 	- [ ] Uses Redis
