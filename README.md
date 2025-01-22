@@ -43,22 +43,22 @@ pgWeb
 
 The primary objective of this project is to develop an enterprise-class Web API using ASP.NET Core with .NET 9.0, adhering to industry-leading practices and leveraging cutting-edge technologies. The project will be structured and implemented following a robust foundation built on:  
 
-- **Clean Architecture** and **Domain-Driven Design (DDD)** for maintainable and scalable solutions.  
-- **CQRS (Command Query Responsibility Segregation)** for clear separation of concerns.  
-- **Repository Pattern** and **Unit of Work** for efficient data access and transactional consistency.  
-- **Mediator Pattern** for streamlined communication between components.  
-- **Fluent Validation** for clean and reusable validation logic.  
-- Comprehensive **exception handling** to ensure resilience and reliability.  
-- Advanced **logging** for diagnostics and monitoring.  
-- **API Versioning** for backward compatibility and smooth evolution.  
-- **Response Caching** to enhance performance.  
-- **Health Checks** to monitor application status.  
-- **Entity Framework Core** for robust ORM capabilities with **SQL Server** as the database.  
-- **AutoMapper** for object-to-object mapping.  
-- **FluentAssertions**, **Moq**, and **xUnit** for effective unit testing and ensuring code quality.  
-- **Scalar/OpenAPI** for API documentation and client consumption.  
-- **Docker** for containerization and portability.  
-- **GitHub Actions** and **Azure DevOps** for CI/CD pipelines and deployment automation.  
+- [X] **Clean Architecture** and **Domain-Driven Design (DDD)** for maintainable and scalable solutions.  
+- [X] **CQRS (Command Query Responsibility Segregation)** for clear separation of concerns.  
+- [X] **Repository Pattern** and **Unit of Work** for efficient data access and transactional consistency.  
+- [X] **Mediator Pattern** for streamlined communication between components.  
+- [X] **Fluent Validation** for clean and reusable validation logic.  
+- [X] Global **exception handling** to ensure resilience and reliability.  
+- [X] Advanced **logging** for diagnostics and monitoring.  
+- [X] **API Versioning** for backward compatibility and smooth evolution.  
+- [ ] **Response Caching** to enhance performance.  
+- [X] **Health Checks** to monitor application status.  
+- [X] **Entity Framework Core** for robust ORM capabilities with **SQL Server** as the database.  
+- [X] **AutoMapper** for object-to-object mapping.  
+- [X] **FluentAssertions**, **Moq**, and **xUnit** for effective unit testing and ensuring code quality.  
+- [X] **Scalar/OpenAPI** for API documentation and client consumption.  
+- [X] **Docker** for containerization and portability.  
+- [ ] **GitHub Actions** and **Azure DevOps** for CI/CD pipelines and deployment automation.  
 
 This combination of design principles, frameworks, and tools will ensure the API is robust, scalable, testable, and production-ready.  
 
@@ -97,6 +97,14 @@ You need the following installed locally:
 Open the solution in Visual Studio 2022 and run the project. The project will be accessible here [https://localhost:17244/](https://localhost:17244/).
 
 Scalar Web API documentation is accessible here [https://localhost:7203/scalar/v1](https://localhost:7203/scalar/v1).
+
+pgAdmin is accessible here [http://localhost:56416/](http://localhost:56416/)
+
+pgWeb is accessible here [http://localhost:56414/](http://localhost:56414/)
+
+Health check is accessible by appending /health eg. [https://localhost:7203/health](https://localhost:7203/health)
+
+Alive check is accessible by appending /alive eg. [https://localhost:7203/alive](https://localhost:7203/alive)
 
 Do note that the port number might vary.
 
