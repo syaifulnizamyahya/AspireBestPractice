@@ -56,6 +56,7 @@ The primary objective of this project is to develop an enterprise-class Web API 
 - [X] **Entity Framework Core** for robust ORM capabilities with **SQL Server** as the database.  
 - [X] **AutoMapper** for object-to-object mapping.  
 - [X] **FluentAssertions**, **Moq**, and **xUnit** for effective unit testing and ensuring code quality.  
+- [ ] **Audit executing operations** for tracking changes.
 - [X] **Scalar/OpenAPI** for API documentation and client consumption.  
 - [X] **Docker** for containerization and portability.  
 - [ ] **GitHub Actions** and **Azure DevOps** for CI/CD pipelines and deployment automation.  
@@ -137,10 +138,8 @@ Do note that the port number might vary.
 ![Models Info](images/ModelsInfo.png)
 - Product model class
 [Product.cs](src/ProductApi.Domain/Entities/Product.cs)
-- Database context
-[AppDbContext.cs](src/ProductApi.Infrastructure/Data/AppDbContext.cs)
 - Controller
-[ProductController.cs](src/ProductApi.Api/Controllers/ProductController.cs)
+[Products Controller](src/ProductApi.Web/Controllers/V1/ProductsController.cs)
 - Service
 [ProductService.cs](src/ProductApi.Application/Services/ProductService.cs)
 
@@ -225,21 +224,21 @@ Do note that the port number might vary.
 
 - [X] CQRS (Command Query Responsibility Segregation)
 	- [X] Uses MediatR 
-		- [X] [CreateProductCommand](src/ProductApi.Application/Features/Products/Commands/CreateProduct/CreateProductCommand.cs)
-		- [X] [CreateProductCommandHandler](src/ProductApi.Application/Features/Products/Commands/CreateProduct/CreateProductCommandHandler.cs)
+		- [X] [Create Product Command](src/ProductApi.Application/Features/Products/Commands/CreateProductCommand.cs)
+		- [X] [Create Product Command Handler](src/ProductApi.Application/Features/Products/Commands/CreateProductCommandHandler.cs)
 
 - [X] Mapping
 	- [X] Uses AutoMapper
-		- [X] [ProductProfile](src/ProductApi.Application/Mapping/ProductProfile.cs)
+		- [X] [Product Dto Profile](src/ProductApi.Application/Mapping/Responses/ProductDtoProfile.cs)
 
 - [X] Fluent Validation
 	- [X] DTO validation
 		- [X] [Create Product Dto Validator](src/ProductApi.Application/Validators/CreateProductDtoValidator.cs)
 	- [X] Command validation
-		- [X] [Create Product Command Validator](src/ProductApi.Application/Features/Products/Commands/CreateProduct/CreateProductCommandValidator.cs)
+		- [X] [Create Product Command Validator](src/ProductApi.Application/Features/Products/Commands/CreateProductCommandValidator.cs)
 
 - [X] Global Exception Handling
-	- [X] [Exception Middleware](src/ProductApi.Api/Middlewares/ExceptionMiddleware.cs)
+	- [X] [Exception Handling Middleware](src/ProductApi.Web/Middlewares/ExceptionHandlingMiddleware.cs)
 
 - [X] API Versioning
 	- [X] Controller API versioning
@@ -277,9 +276,35 @@ Do note that the port number might vary.
 	- [X] Docker instance
 	- [X] Integrated with pgAmin
 	- [X] Integrated wiht pgWeb
+	```csharp
+	var postgres = builder.AddPostgres("postgres")
+		.WithPgAdmin()
+		.WithPgWeb();
+	var postgresdb = postgres.AddDatabase(productApiSettings.DatabaseName);
+
+	var productApiService = builder.AddProject<Projects.ProductApi_Web>("productapi-web")
+		.WithExternalHttpEndpoints()
+		.WithReference(postgresdb)
+		.WaitFor(postgresdb);
+
+	```
+
+	```csharp
+	builder.AddNpgsqlDbContext<AppDbContext>(applicationSettings.DatabaseName);
+
+	```
 
 - [X] API Documentation
 	- [X] Uses Scalar/OpenAPI  
+	```csharp
+	if (app.Environment.IsDevelopment())
+	{
+		app.MapOpenApi();
+		app.MapScalarApiReference();
+		app.UseCors("AllowAll");
+	}
+
+	```
 
 - [X] Containerization 
 	- [X] Uses Docker  
