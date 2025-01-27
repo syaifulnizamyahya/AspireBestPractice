@@ -272,10 +272,11 @@ Do note that the port number might vary.
 	- [ ] Hybrid caching
 
 - [X] Entity Framework Core  
+	- [X] [App Db Context](src/ProductApi.Infrastructure/Data/AppDbContext.cs)
 	- [X] Uses PostgreSQL
 	- [X] Docker instance
 	- [X] Integrated with pgAmin
-	- [X] Integrated wiht pgWeb
+	- [X] Integrated with pgWeb
 	```csharp
 	var postgres = builder.AddPostgres("postgres")
 		.WithPgAdmin()
